@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">InternFlow 投递工作台预览</title>
+  <desc id="desc">包含投递统计、搜索筛选和六阶段求职看板的产品界面</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#1f3027" flood-opacity=".08"/>
+    </filter>
+    <style>
+      .ui { font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif; }
+      .serif { font-family: Georgia, "Songti SC", serif; }
+      .muted { fill: #68736c; }
+      .tiny { font-size: 10px; }
+      .small { font-size: 12px; }
+      .label { font-size: 11px; font-weight: 700; }
+      .body { font-size: 13px; }
+      .strong { font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="675" rx="22" fill="#f6f7f2"/>
+  <rect width="1200" height="64" rx="22" fill="#fafbf8"/>
+  <path d="M0 42h1200v22H0z" fill="#fafbf8"/>
+  <path d="M0 64h1200" stroke="#dfe4dc"/>
+
+  <g class="ui">
+    <rect x="24" y="14" width="36" height="36" rx="11" fill="#176b4d" transform="rotate(-3 42 32)"/>
+    <text x="42" y="36" text-anchor="middle" font-size="11" font-weight="800" fill="#dff257">IF</text>
+    <text x="70" y="39" font-size="18" font-weight="800" fill="#17211b">InternFlow</text>
+    <text x="1028" y="37" class="small muted">demo</text>
+    <rect x="1071" y="17" width="54" height="32" rx="10" fill="#fff" stroke="#dfe4dc"/>
+    <text x="1098" y="38" text-anchor="middle" class="small strong" fill="#17211b">工作台</text>
+    <rect x="1135" y="17" width="44" height="32" rx="10" fill="#fff" stroke="#dfe4dc"/>
+    <text x="1157" y="38" text-anchor="middle" class="small strong" fill="#17211b">退出</text>
+  </g>
+
+  <g class="ui">
+    <rect x="24" y="94" width="21" height="2" fill="#176b4d"/>
+    <text x="53" y="100" class="tiny strong" fill="#176b4d" letter-spacing="1">求职进度</text>
+    <text x="24" y="147" class="serif" font-size="35" fill="#17211b">你好，demo</text>
+    <text x="24" y="173" class="small muted">把注意力留给真正重要的下一步。</text>
+    <rect x="1058" y="124" width="121" height="40" rx="11" fill="#176b4d" filter="url(#shadow)"/>
+    <text x="1118" y="149" text-anchor="middle" class="small strong" fill="#fff">＋ 新增投递</text>
+  </g>
+
+  <g class="ui" filter="url(#shadow)">
+    <g>
+      <rect x="24" y="199" width="275" height="101" rx="14" fill="#fff" stroke="#dfe4dc"/>
+      <text x="43" y="225" class="tiny muted">全部记录</text>
+      <text x="43" y="263" class="serif" font-size="32" fill="#17211b">6</text>
+      <text x="43" y="284" class="tiny muted">累计跟进</text>
+    </g>
+    <g>
+      <rect x="313" y="199" width="275" height="101" rx="14" fill="#fff" stroke="#dfe4dc"/>
+      <text x="332" y="225" class="tiny muted">进行中</text>
+      <text x="332" y="263" class="serif" font-size="32" fill="#17211b">4</text>
+      <text x="332" y="284" class="tiny muted">需要关注</text>
+    </g>
+    <g>
+      <rect x="602" y="199" width="275" height="101" rx="14" fill="#fff" stroke="#dfe4dc"/>
+      <text x="621" y="225" class="tiny muted">面试阶段</text>
+      <text x="621" y="263" class="serif" font-size="32" fill="#17211b">1</text>
+      <text x="621" y="284" class="tiny muted">准备表达</text>
+    </g>
+    <g>
+      <rect x="891" y="199" width="288" height="101" rx="14" fill="#176b4d"/>
+      <circle cx="1163" cy="298" r="72" fill="none" stroke="#dff257" stroke-opacity=".14" stroke-width="22"/>
+      <text x="910" y="225" class="tiny" fill="#fff" opacity=".68">收到 Offer</text>
+      <text x="910" y="263" class="serif" font-size="32" fill="#fff">1</text>
+      <text x="910" y="284" class="tiny" fill="#fff" opacity=".68">继续加油</text>
+    </g>
+  </g>
+
+  <g class="ui">
+    <rect x="24" y="316" width="1155" height="42" rx="11" fill="#fff2dd" stroke="#f3d29e"/>
+    <text x="41" y="341" class="small strong" fill="#72420e">1 个岗位即将截止</text>
+    <text x="165" y="341" class="small" fill="#92632d">未来 7 天内，记得及时投递。</text>
+
+    <rect x="24" y="374" width="371" height="42" rx="10" fill="#fff" stroke="#cfd5cd"/>
+    <circle cx="43" cy="395" r="5" fill="none" stroke="#68736c"/>
+    <path d="m47 399 4 4" stroke="#68736c"/>
+    <text x="61" y="400" class="small muted">搜索公司、岗位或城市</text>
+    <rect x="407" y="374" width="124" height="42" rx="10" fill="#fff" stroke="#cfd5cd"/>
+    <text x="425" y="400" class="small" fill="#17211b">全部进度</text>
+    <path d="m513 392 4 4 4-4" fill="none" stroke="#68736c"/>
+    <rect x="541" y="374" width="55" height="42" rx="10" fill="#fff" stroke="#dfe4dc"/>
+    <text x="568" y="400" text-anchor="middle" class="small strong" fill="#17211b">筛选</text>
+  </g>
+
+  <g class="ui">
+    <g transform="translate(24 434)">
+      <rect width="183" height="219" rx="13" fill="#ecefea" stroke="#dfe4dc"/>
+      <circle cx="17" cy="22" r="4" fill="#89948c"/>
+      <text x="28" y="26" class="label" fill="#17211b">待投递</text>
+      <circle cx="164" cy="22" r="10" fill="#fff"/>
+      <text x="164" y="26" text-anchor="middle" class="tiny muted">1</text>
+      <rect x="10" y="42" width="163" height="163" rx="10" fill="#fff" stroke="#e0e4de"/>
+      <rect x="10" y="42" width="163" height="3" rx="2" fill="#e9944a"/>
+      <rect x="22" y="56" width="51" height="18" rx="9" fill="#fff0df"/>
+      <text x="47" y="68" text-anchor="middle" font-size="8" fill="#8b4d18">高优先级</text>
+      <text x="22" y="96" class="small strong" fill="#17211b">AI 应用开发实习生</text>
+      <text x="22" y="114" class="tiny muted">青桐智能 · 苏州</text>
+      <text x="22" y="145" class="tiny muted">截止</text>
+      <text x="150" y="145" text-anchor="end" class="tiny strong" fill="#17211b">07 月 30 日</text>
+      <rect x="22" y="160" width="139" height="29" rx="7" fill="#fafbf8" stroke="#e2e6df"/>
+      <text x="31" y="179" class="tiny muted">移至：待投递</text>
+    </g>
+
+    <g transform="translate(218 434)">
+      <rect width="183" height="219" rx="13" fill="#ecefea" stroke="#dfe4dc"/>
+      <circle cx="17" cy="22" r="4" fill="#4a82da"/>
+      <text x="28" y="26" class="label" fill="#17211b">已投递</text>
+      <circle cx="164" cy="22" r="10" fill="#fff"/>
+      <text x="164" y="26" text-anchor="middle" class="tiny muted">1</text>
+      <rect x="10" y="42" width="163" height="145" rx="10" fill="#fff" stroke="#e0e4de"/>
+      <rect x="10" y="42" width="163" height="3" rx="2" fill="#e9944a"/>
+      <rect x="22" y="56" width="51" height="18" rx="9" fill="#fff0df"/>
+      <text x="47" y="68" text-anchor="middle" font-size="8" fill="#8b4d18">高优先级</text>
+      <text x="22" y="96" class="small strong" fill="#17211b">Python 开发实习生</text>
+      <text x="22" y="114" class="tiny muted">星河科技 · 南京</text>
+      <rect x="22" y="140" width="139" height="29" rx="7" fill="#fafbf8" stroke="#e2e6df"/>
+      <text x="31" y="159" class="tiny muted">移至：已投递</text>
+    </g>
+
+    <g transform="translate(412 434)">
+      <rect width="183" height="219" rx="13" fill="#ecefea" stroke="#dfe4dc"/>
+      <circle cx="17" cy="22" r="4" fill="#9e6bd2"/>
+      <text x="28" y="26" class="label" fill="#17211b">笔试</text>
+      <circle cx="164" cy="22" r="10" fill="#fff"/>
+      <text x="164" y="26" text-anchor="middle" class="tiny muted">1</text>
+      <rect x="10" y="42" width="163" height="133" rx="10" fill="#fff" stroke="#e0e4de"/>
+      <text x="22" y="77" class="small strong" fill="#17211b">数据分析实习生</text>
+      <text x="22" y="95" class="tiny muted">远山数据 · 上海</text>
+      <rect x="22" y="128" width="139" height="29" rx="7" fill="#fafbf8" stroke="#e2e6df"/>
+      <text x="31" y="147" class="tiny muted">移至：笔试</text>
+    </g>
+
+    <g transform="translate(606 434)">
+      <rect width="183" height="219" rx="13" fill="#ecefea" stroke="#dfe4dc"/>
+      <circle cx="17" cy="22" r="4" fill="#e9944a"/>
+      <text x="28" y="26" class="label" fill="#17211b">面试</text>
+      <circle cx="164" cy="22" r="10" fill="#fff"/>
+      <text x="164" y="26" text-anchor="middle" class="tiny muted">1</text>
+      <rect x="10" y="42" width="163" height="145" rx="10" fill="#fff" stroke="#e0e4de"/>
+      <rect x="10" y="42" width="163" height="3" rx="2" fill="#e9944a"/>
+      <text x="22" y="82" class="small strong" fill="#17211b">后端开发实习生</text>
+      <text x="22" y="100" class="tiny muted">云帆网络 · 杭州</text>
+      <rect x="22" y="140" width="139" height="29" rx="7" fill="#fafbf8" stroke="#e2e6df"/>
+      <text x="31" y="159" class="tiny muted">移至：面试</text>
+    </g>
+
+    <g transform="translate(800 434)">
+      <rect width="183" height="219" rx="13" fill="#ecefea" stroke="#dfe4dc"/>
+      <circle cx="17" cy="22" r="4" fill="#176b4d"/>
+      <text x="28" y="26" class="label" fill="#17211b">Offer</text>
+      <circle cx="164" cy="22" r="10" fill="#fff"/>
+      <text x="164" y="26" text-anchor="middle" class="tiny muted">1</text>
+      <rect x="10" y="42" width="163" height="133" rx="10" fill="#fff" stroke="#e0e4de"/>
+      <text x="22" y="77" class="small strong" fill="#17211b">软件工程实习生</text>
+      <text x="22" y="95" class="tiny muted">海岸互联 · 远程</text>
+      <rect x="22" y="128" width="139" height="29" rx="7" fill="#fafbf8" stroke="#e2e6df"/>
+      <text x="31" y="147" class="tiny muted">移至：Offer</text>
+    </g>
+
+    <g transform="translate(994 434)">
+      <rect width="185" height="219" rx="13" fill="#ecefea" stroke="#dfe4dc"/>
+      <circle cx="17" cy="22" r="4" fill="#a65454"/>
+      <text x="28" y="26" class="label" fill="#17211b">已结束</text>
+      <circle cx="166" cy="22" r="10" fill="#fff"/>
+      <text x="166" y="26" text-anchor="middle" class="tiny muted">1</text>
+      <rect x="10" y="42" width="165" height="133" rx="10" fill="#fff" stroke="#e0e4de"/>
+      <text x="22" y="77" class="small strong" fill="#17211b">测试开发实习生</text>
+      <text x="22" y="95" class="tiny muted">方舟软件 · 南京</text>
+      <rect x="22" y="128" width="141" height="29" rx="7" fill="#fafbf8" stroke="#e2e6df"/>
+      <text x="31" y="147" class="tiny muted">移至：已结束</text>
+    </g>
+  </g>
+</svg>

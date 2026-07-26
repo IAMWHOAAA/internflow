@@ -1,0 +1,53 @@
+[project]
+name = "internflow"
+version = "0.1.0"
+description = "A privacy-friendly internship application tracker for students."
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+license = "MIT"
+authors = [
+  { name = "IAMWHOAAA" },
+]
+dependencies = [
+  "Django>=5.2.16,<5.3",
+  "dj-database-url>=3.0,<4",
+  "gunicorn>=23,<24",
+  "psycopg[binary]>=3.2,<4",
+  "whitenoise>=6.9,<7",
+]
+
+[dependency-groups]
+dev = [
+  "pytest>=8.4,<9",
+  "pytest-cov>=6.2,<8",
+  "pytest-django>=4.11,<5",
+  "ruff>=0.14,<1",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py", "*_test.py"]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.coverage.run]
+branch = true
+source = ["jobs"]
+omit = ["*/migrations/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 80
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+extend-exclude = ["jobs/migrations"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "DJ", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
