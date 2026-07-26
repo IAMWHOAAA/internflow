@@ -11,6 +11,7 @@
   </div>
   <form method="post" class="record-form">
     {% csrf_token %}
+    <div class="form-context-note"><span>✦</span><p><strong>面试阶段的小提示</strong>填写职位描述和面试时间后，复习清单会更加具体。</p></div>
     {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
     <div class="form-grid">
       {% for field in form %}

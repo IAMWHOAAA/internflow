@@ -16,6 +16,7 @@
     </div>
     <div class="detail-actions">
       <a class="button button-ghost" href="{% url 'jobs:edit' application.pk %}">编辑</a>
+      {% if application.status == "interview" %}<a class="v2-button prep-highlight" href="{% url 'jobs:interview_prep' application.pk %}">✦ 面试复习清单</a>{% endif %}
       {% if application.source_url %}<a class="button button-primary" href="{{ application.source_url }}" target="_blank" rel="noopener">查看职位 ↗</a>{% endif %}
     </div>
   </div>
@@ -29,6 +30,7 @@
         <div><dt>薪资</dt><dd>{{ application.salary_text|default:"未填写" }}</dd></div>
         <div><dt>截止日期</dt><dd>{{ application.deadline|date:"Y 年 m 月 d 日"|default:"未填写" }}</dd></div>
         <div><dt>投递日期</dt><dd>{{ application.applied_at|date:"Y 年 m 月 d 日"|default:"未填写" }}</dd></div>
+        <div><dt>面试时间</dt><dd>{{ application.interview_at|date:"Y 年 m 月 d 日 H:i"|default:"未填写" }}</dd></div>
       </dl>
     </article>
     <article class="detail-card">

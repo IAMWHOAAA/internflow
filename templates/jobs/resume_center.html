@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}简历中心 · InternFlow{% endblock %}
+
+{% block content %}
+<section class="resume-page">
+  <header class="workspace-heading">
+    <div>
+      <div class="v2-eyebrow subtle"><span>PRIVATE</span> 本地简历分析</div>
+      <h1>简历中心</h1>
+      <p>看见招聘者会看到的信号，也看见下一步怎么改。</p>
+    </div>
+    <div class="privacy-badge"><i>⌁</i><span><strong>本机处理</strong><small>不会发送给第三方</small></span></div>
+  </header>
+
+  {% if resume %}
+    <div class="resume-overview">
+      <article class="resume-score-panel">
+        <div class="resume-score-ring" style="--score: {{ resume.analysis.score|default:0 }}">
+          <div><strong>{{ resume.analysis.score|default:"--" }}</strong><small>综合评分</small></div>
+        </div>
+        <div class="score-copy">
+          <span>最近分析 · {{ resume.analyzed_at|date:"Y.m.d H:i" }}</span>
+          <h2>{{ resume.analysis.summary }}</h2>
+          <p>{{ resume.original_name }} · {{ resume.analysis.word_count }} 个文本单元 · {{ resume.analysis.keywords|length }} 项技术能力</p>
+        </div>
+        <div class="score-grade">
+          {% if resume.analysis.score >= 85 %}<span class="grade-a">A</span><small>岗位定制阶段</small>
+          {% elif resume.analysis.score >= 70 %}<span class="grade-b">B</span><small>重点打磨阶段</small>
+          {% elif resume.analysis.score >= 55 %}<span class="grade-c">C</span><small>结构补强阶段</small>
+          {% else %}<span class="grade-d">D</span><small>内容建设阶段</small>{% endif %}
+        </div>
+      </article>
+
+      <div class="analysis-grid">
+        <article class="analysis-card strengths-card">
+          <header><span class="analysis-icon">↗</span><div><small>STRENGTHS</small><h2>你的优势</h2></div></header>
+          <ul>{% for item in resume.analysis.strengths %}<li><i>✓</i><span>{{ item }}</span></li>{% endfor %}</ul>
+        </article>
+        <article class="analysis-card weaknesses-card">
+          <header><span class="analysis-icon">!</span><div><small>GAPS</small><h2>需要补强</h2></div></header>
+          <ul>{% for item in resume.analysis.weaknesses %}<li><i>→</i><span>{{ item }}</span></li>{% endfor %}</ul>
+        </article>
+        <article class="analysis-card suggestions-card">
+          <header><span class="analysis-icon">✦</span><div><small>NEXT ACTIONS</small><h2>修改建议</h2></div></header>
+          <ol>{% for item in resume.analysis.suggestions %}<li><b>0{{ forloop.counter }}</b><span>{{ item }}</span></li>{% endfor %}</ol>
+        </article>
+        <article class="analysis-card signal-card">
+          <header><span class="analysis-icon">#</span><div><small>SIGNALS</small><h2>已识别能力</h2></div></header>
+          <div class="keyword-cloud">
+            {% for keyword in resume.analysis.keywords %}<span>{{ keyword }}</span>{% empty %}<p>暂未识别到明确技术关键词。</p>{% endfor %}
+          </div>
+          <div class="signal-metrics"><span><b>{{ resume.analysis.metrics_count }}</b>量化成果</span><span><b>{{ resume.analysis.sections|length }}</b>结构检查项</span></div>
+        </article>
+      </div>
+
+      <article class="resume-update-panel">
+        <div><span>更新分析</span><h2>上传修改后的简历</h2><p>新分析会自动刷新所有面试阶段岗位的复习清单，已勾选的同名任务会保留。</p></div>
+        <form method="post" enctype="multipart/form-data" class="compact-upload">
+          {% csrf_token %}{{ form.file }}{{ form.file.errors }}
+          <button class="v2-button primary" type="submit">重新分析</button>
+        </form>
+      </article>
+      <form method="post" action="{% url 'jobs:resume_delete' %}" class="resume-delete-form">
+        {% csrf_token %}<button type="submit">删除简历及分析数据</button>
+      </form>
+  {% else %}
+    <div class="resume-empty-layout">
+      <article class="upload-hero">
+        <span class="upload-kicker">RESUME INTELLIGENCE</span>
+        <h2>上传一次，得到一条清晰的改进路线。</h2>
+        <p>我们会提取文本并检查简历结构、项目证据、量化成果和技术关键词。整个过程只发生在你的电脑上。</p>
+        <form method="post" enctype="multipart/form-data" class="dropzone-form">
+          {% csrf_token %}
+          <label class="resume-dropzone" for="{{ form.file.id_for_label }}">
+            <span class="upload-orb">⇧</span>
+            <strong>选择 PDF 或 DOCX 简历</strong>
+            <small>最大 5 MB · 扫描版 PDF 需要先完成 OCR</small>
+            {{ form.file }}
+          </label>
+          {{ form.file.errors }}
+          <button class="v2-button primary large" type="submit">开始本地分析 <span>→</span></button>
+        </form>
+      </article>
+      <aside class="analysis-preview">
+        <div class="preview-head"><span>你将获得</span><i>约 10 秒</i></div>
+        <div class="preview-score"><strong>78</strong><span><b>综合评分</b><small>基于可解释规则</small></span></div>
+        <ul>
+          <li><i>01</i><span><strong>结构完整度</strong><small>教育、项目、技能与实践经历</small></span></li>
+          <li><i>02</i><span><strong>成果证据</strong><small>量化结果与个人贡献表达</small></span></li>
+          <li><i>03</i><span><strong>技术信号</strong><small>岗位可检索的能力关键词</small></span></li>
+          <li><i>04</i><span><strong>面试衔接</strong><small>自动转化为个性化复习清单</small></span></li>
+        </ul>
+      </aside>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

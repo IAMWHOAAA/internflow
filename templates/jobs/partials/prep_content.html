@@ -1,0 +1,38 @@
+<div id="prep-content" class="prep-layout">
+  <aside class="prep-progress-card">
+    <div class="prep-ring" style="--progress: {{ prep_progress }}"><strong>{{ prep_progress }}%</strong><small>准备进度</small></div>
+    <div class="prep-count"><strong>{{ prep_completed }} / {{ prep_total }}</strong><span>项已经完成</span></div>
+    <div class="prep-progress-bar"><i style="width: {{ prep_progress }}%"></i></div>
+    <p>{% if prep_progress == 100 %}准备完成。保持好状态，面试时相信自己的经历。{% elif prep_progress >= 50 %}已经过半，接下来优先处理岗位技术缺口。{% else %}从自我介绍和项目复盘开始，逐项建立信心。{% endif %}</p>
+    <div class="prep-source"><span>生成依据</span><i>你的简历</i><i>岗位 JD</i><i>简历短板</i></div>
+  </aside>
+
+  <div class="prep-groups">
+    {% for category, group in grouped_prep.items %}
+      {% if group.items %}
+        <section class="prep-group category-{{ category }}">
+          <header><span>{{ group.label }}</span><b>{{ group.items|length }} 项</b></header>
+          <div class="prep-items">
+            {% for item in group.items %}
+              <form
+                method="post"
+                action="{% url 'jobs:interview_prep_toggle' application.pk item.pk %}"
+                class="prep-item {% if item.is_done %}completed{% endif %}"
+                hx-post="{% url 'jobs:interview_prep_toggle' application.pk item.pk %}"
+                hx-target="#prep-content"
+                hx-swap="outerHTML">
+                {% csrf_token %}
+                <label>
+                  <input type="checkbox" name="is_done" {% if item.is_done %}checked{% endif %} onchange="this.form.requestSubmit()">
+                  <span class="custom-check">✓</span>
+                  <span class="prep-item-copy"><strong>{{ item.title }}</strong><small>{{ item.detail }}</small></span>
+                </label>
+                <noscript><button type="submit">保存</button></noscript>
+              </form>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

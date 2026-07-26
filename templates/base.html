@@ -4,56 +4,122 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="InternFlow：面向学生的开源实习投递管理工具">
+  <meta name="description" content="InternFlow：从简历洞察到面试准备的开源求职工作台">
+  <meta name="theme-color" content="#111827">
   <title>{% block title %}InternFlow{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'css/v2.css' %}">
+  {% block extra_head %}{% endblock %}
   <script
     src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js"
     integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V"
     crossorigin="anonymous"
     defer></script>
 </head>
-<body>
+<body class="{% if user.is_authenticated %}app-body{% else %}marketing-body{% endif %}">
   <a class="skip-link" href="#main-content">跳到主要内容</a>
-  <header class="site-header">
-    <div class="shell nav">
-      <a class="brand" href="{% url 'landing' %}" aria-label="InternFlow 首页">
-        <span class="brand-mark" aria-hidden="true">IF</span>
-        <span>InternFlow</span>
-      </a>
-      <nav class="nav-actions" aria-label="主导航">
-        {% if user.is_authenticated %}
-          <span class="nav-user">{{ user.username }}</span>
-          <a class="button button-ghost button-small" href="{% url 'jobs:dashboard' %}">工作台</a>
+
+  {% if user.is_authenticated %}
+    <div class="app-layout">
+      <aside class="app-sidebar">
+        <a class="v2-brand sidebar-brand" href="{% url 'jobs:dashboard' %}" aria-label="InternFlow 工作台">
+          <span class="v2-brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 17V7m0 5h6m6-5v10m0-5h-6"/></svg>
+          </span>
+          <span>InternFlow<small>CAREER OS</small></span>
+        </a>
+
+        <nav class="sidebar-nav" aria-label="工作台导航">
+          <span class="sidebar-label">工作空间</span>
+          <a class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'jobs:dashboard' %}">
+            <span class="nav-icon">⌂</span><span>投递看板</span>
+          </a>
+          <a class="{% if request.resolver_match.url_name == 'resume' %}active{% endif %}" href="{% url 'jobs:resume' %}">
+            <span class="nav-icon">◇</span><span>简历中心</span>
+            {% if user.resume_profile.analysis %}<i class="nav-status">已分析</i>{% endif %}
+          </a>
+          <a href="{% url 'jobs:create' %}">
+            <span class="nav-icon">＋</span><span>新增投递</span>
+          </a>
+          <span class="sidebar-label sidebar-label-spaced">项目</span>
+          <a href="https://github.com/IAMWHOAAA/internflow" target="_blank" rel="noopener">
+            <span class="nav-icon">↗</span><span>GitHub 仓库</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-insight">
+          <span>本周建议</span>
+          {% if user.resume_profile.analysis %}
+            <strong>把简历短板变成面试答案</strong>
+            <p>你的简历已完成分析，进入面试的岗位会自动生成清单。</p>
+          {% else %}
+            <strong>先建立简历基线</strong>
+            <p>上传 PDF 或 DOCX，获取可解释的优缺点分析。</p>
+            <a href="{% url 'jobs:resume' %}">开始分析 →</a>
+          {% endif %}
+        </div>
+
+        <div class="sidebar-account">
+          <span class="account-avatar">{{ user.username|first|upper }}</span>
+          <div><strong>{{ user.username }}</strong><small>求职进行中</small></div>
           <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
-            <button class="button button-ghost button-small" type="submit">退出</button>
+            <button type="submit" aria-label="退出登录">↪</button>
           </form>
-        {% else %}
-          <a class="button button-ghost button-small" href="{% url 'login' %}">登录</a>
-          <a class="button button-primary button-small" href="{% url 'signup' %}">免费开始</a>
+        </div>
+      </aside>
+
+      <div class="app-workspace">
+        <header class="mobile-appbar">
+          <a class="v2-brand" href="{% url 'jobs:dashboard' %}">
+            <span class="v2-brand-mark">IF</span><span>InternFlow</span>
+          </a>
+          <nav>
+            <a href="{% url 'jobs:dashboard' %}">看板</a>
+            <a href="{% url 'jobs:resume' %}">简历</a>
+          </nav>
+        </header>
+        {% if messages %}
+          <div class="v2-messages" aria-live="polite">
+            {% for message in messages %}
+              <div class="v2-message {{ message.tags|default:'info' }}">{{ message }}</div>
+            {% endfor %}
+          </div>
         {% endif %}
-      </nav>
+        <main id="main-content" class="app-main">
+          {% block content %}{% endblock %}
+        </main>
+      </div>
     </div>
-  </header>
-
-  {% if messages %}
-    <div class="shell messages" aria-live="polite">
-      {% for message in messages %}
-        <div class="message">{{ message }}</div>
-      {% endfor %}
-    </div>
+  {% else %}
+    <header class="marketing-header">
+      <div class="marketing-shell marketing-nav">
+        <a class="v2-brand" href="{% url 'landing' %}" aria-label="InternFlow 首页">
+          <span class="v2-brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 17V7m0 5h6m6-5v10m0-5h-6"/></svg>
+          </span>
+          <span>InternFlow</span>
+        </a>
+        <nav aria-label="主导航">
+          <a href="#features">功能</a>
+          <a href="https://github.com/IAMWHOAAA/internflow">开源</a>
+          <a class="v2-button secondary compact" href="{% url 'login' %}">登录</a>
+          <a class="v2-button primary compact" href="{% url 'signup' %}">免费开始</a>
+        </nav>
+      </div>
+    </header>
+    {% if messages %}
+      <div class="v2-messages public-messages" aria-live="polite">
+        {% for message in messages %}<div class="v2-message">{{ message }}</div>{% endfor %}
+      </div>
+    {% endif %}
+    <main id="main-content">{% block public_content %}{% endblock %}</main>
+    <footer class="v2-footer">
+      <div class="marketing-shell">
+        <span>InternFlow · 把每一次投递变成可复盘的成长</span>
+        <span>Local-first · MIT License · Open Source</span>
+      </div>
+    </footer>
   {% endif %}
-
-  <main id="main-content">
-    {% block content %}{% endblock %}
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-inner">
-      <span>InternFlow · 把求职变成一套清晰的流程</span>
-      <a href="https://github.com/IAMWHOAAA/internflow">GitHub 开源</a>
-    </div>
-  </footer>
 </body>
 </html>

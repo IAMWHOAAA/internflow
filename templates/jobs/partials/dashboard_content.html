@@ -1,56 +1,74 @@
-<div class="stats-grid">
-  <article class="stat-card"><span>全部记录</span><strong>{{ stats.total }}</strong><small>累计跟进</small></article>
-  <article class="stat-card"><span>进行中</span><strong>{{ stats.active }}</strong><small>需要关注</small></article>
-  <article class="stat-card"><span>面试阶段</span><strong>{{ stats.interviews }}</strong><small>准备表达</small></article>
-  <article class="stat-card stat-accent"><span>收到 Offer</span><strong>{{ stats.offers }}</strong><small>继续加油</small></article>
+<div class="command-grid">
+  <article class="command-card command-primary">
+    <div class="command-label"><span>求职漏斗</span><i>实时</i></div>
+    <div class="command-number">{{ stats.active }}<small>个机会正在推进</small></div>
+    <div class="funnel-row">
+      <span><b>{{ stats.total }}</b>全部</span>
+      <i>→</i><span><b>{{ stats.interviews }}</b>面试</span>
+      <i>→</i><span class="offer"><b>{{ stats.offers }}</b>Offer</span>
+    </div>
+  </article>
+
+  <article class="command-card resume-command {% if resume %}ready{% endif %}">
+    <div class="command-label"><span>简历健康度</span><a href="{% url 'jobs:resume' %}">查看 →</a></div>
+    {% if resume %}
+      <div class="mini-score" style="--score: {{ resume.analysis.score|default:0 }}">
+        <strong>{{ resume.analysis.score|default:"--" }}</strong><small>/100</small>
+      </div>
+      <div class="resume-command-copy"><strong>{{ resume.analysis.summary }}</strong><span>{{ resume.analysis.keywords|length }} 个技术关键词 · {{ resume.analysis.metrics_count }} 处量化成果</span></div>
+    {% else %}
+      <div class="empty-command-icon">◇</div>
+      <div class="resume-command-copy"><strong>还没有简历分析</strong><span>上传 PDF 或 DOCX，获取优缺点与修改建议。</span></div>
+      <a class="inline-action" href="{% url 'jobs:resume' %}">上传简历</a>
+    {% endif %}
+  </article>
+
+  <article class="command-card interview-command">
+    <div class="command-label"><span>下一场面试</span><i class="live-dot"></i></div>
+    {% with next_interview=upcoming_interviews.0 %}
+      {% if next_interview %}
+        <div class="next-interview">
+          <span class="company-avatar">{{ next_interview.company|first }}</span>
+          <div><strong>{{ next_interview.role }}</strong><small>{{ next_interview.company }}{% if next_interview.interview_at %} · {{ next_interview.interview_at|date:"m月d日 H:i" }}{% endif %}</small></div>
+        </div>
+        <a class="prep-action" href="{% url 'jobs:interview_prep' next_interview.pk %}"><span>打开复习清单</span><b>→</b></a>
+      {% else %}
+        <div class="empty-interview"><strong>暂无面试安排</strong><span>把进入面试的岗位补充时间后，会显示在这里。</span></div>
+      {% endif %}
+    {% endwith %}
+  </article>
 </div>
 
 {% if stats.due_soon %}
-  <div class="deadline-alert"><strong>{{ stats.due_soon }} 个岗位即将截止</strong><span>未来 7 天内，记得及时投递。</span></div>
+  <div class="v2-alert"><span>!</span><strong>{{ stats.due_soon }} 个岗位将在 7 天内截止</strong><a href="?status=saved">立即处理 →</a></div>
 {% endif %}
 
-<form
-  class="toolbar"
-  method="get"
-  action="{% url 'jobs:dashboard' %}"
-  hx-get="{% url 'jobs:dashboard' %}"
-  hx-trigger="submit, change from:select, keyup changed delay:350ms from:#search-input"
-  hx-target="#dashboard-content"
-  hx-push-url="true">
-  <label class="search-box" for="search-input">
-    <span aria-hidden="true">⌕</span>
-    <input id="search-input" type="search" name="q" value="{{ query }}" placeholder="搜索公司、岗位或城市">
-  </label>
-  <label class="select-label">
-    <span class="sr-only">按进度筛选</span>
-    <select name="status">
-      <option value="">全部进度</option>
-      {% for value, label in status_choices %}
-        <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>
-      {% endfor %}
-    </select>
-  </label>
-  <button class="button button-ghost button-small" type="submit">筛选</button>
-  {% if query or selected_status %}
-    <a class="clear-filter" href="{% url 'jobs:dashboard' %}">清除筛选</a>
-  {% endif %}
-</form>
+<div class="board-section-heading">
+  <div><span>APPLICATION PIPELINE</span><h2>投递进度</h2></div>
+  <form
+    class="v2-toolbar"
+    method="get"
+    action="{% url 'jobs:dashboard' %}"
+    hx-get="{% url 'jobs:dashboard' %}"
+    hx-trigger="submit, change from:select, keyup changed delay:350ms from:#search-input"
+    hx-target="#dashboard-content"
+    hx-push-url="true">
+    <label class="v2-search" for="search-input"><span>⌕</span><input id="search-input" type="search" name="q" value="{{ query }}" placeholder="搜索公司、岗位或城市"></label>
+    <label class="v2-select"><span class="sr-only">按进度筛选</span><select name="status"><option value="">全部进度</option>{% for value, label in status_choices %}<option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></label>
+    <button class="v2-button secondary compact" type="submit">筛选</button>
+    {% if query or selected_status %}<a class="clear-filter" href="{% url 'jobs:dashboard' %}">清除</a>{% endif %}
+  </form>
+</div>
 
-<div class="kanban" aria-label="投递进度看板">
+<div class="kanban v2-kanban" aria-label="投递进度看板">
   {% for status_value, group in grouped_applications.items %}
     <section class="kanban-column status-{{ status_value }}">
-      <header class="column-header">
-        <span><i class="dot"></i>{{ group.label }}</span>
-        <b>{{ group.items|length }}</b>
-      </header>
+      <header class="column-header"><span><i class="dot"></i>{{ group.label }}</span><b>{{ group.items|length }}</b></header>
       <div class="column-items">
         {% for application in group.items %}
           {% include "jobs/partials/application_card.html" %}
         {% empty %}
-          <div class="empty-column">
-            <span aria-hidden="true">＋</span>
-            <p>暂无记录</p>
-          </div>
+          <div class="empty-column"><span aria-hidden="true">＋</span><p>暂无记录</p></div>
         {% endfor %}
       </div>
     </section>
@@ -58,12 +76,8 @@
 </div>
 
 {% if not stats.total %}
-  <div class="first-run-card">
-    <div class="first-run-icon">↗</div>
-    <div>
-      <h2>从第一份心仪岗位开始</h2>
-      <p>记录公司、岗位和截止日期，InternFlow 会帮你守住每一个机会。</p>
-    </div>
-    <a class="button button-primary" href="{% url 'jobs:create' %}">新增第一条记录</a>
+  <div class="v2-first-run">
+    <span>↗</span><div><h2>从第一份心仪岗位开始</h2><p>建立记录后，截止提醒、状态历史和面试准备会自动串联起来。</p></div>
+    <a class="v2-button primary" href="{% url 'jobs:create' %}">新增第一条记录</a>
   </div>
 {% endif %}

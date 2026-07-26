@@ -15,6 +15,11 @@
   {% if application.deadline %}
     <div class="card-deadline"><span>截止</span><time datetime="{{ application.deadline|date:'Y-m-d' }}">{{ application.deadline|date:"m 月 d 日" }}</time></div>
   {% endif %}
+  {% if application.status == "interview" %}
+    <a class="card-prep-link" href="{% url 'jobs:interview_prep' application.pk %}">
+      <span>面试复习清单</span><b>→</b>
+    </a>
+  {% endif %}
   <form method="post" action="{% url 'jobs:status_update' application.pk %}" class="status-form">
     {% csrf_token %}
     <label>

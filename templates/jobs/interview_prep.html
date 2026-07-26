@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ application.company }} 面试准备 · InternFlow{% endblock %}
+
+{% block content %}
+<section class="prep-page">
+  <a class="v2-back-link" href="{% url 'jobs:detail' application.pk %}">← 返回岗位详情</a>
+  <header class="prep-hero">
+    <div class="prep-company">
+      <span>{{ application.company|first }}</span>
+      <div><small>{{ application.company }}</small><h1>{{ application.role }}</h1><p>{% if application.interview_at %}面试时间 · {{ application.interview_at|date:"Y 年 m 月 d 日 H:i" }}{% else %}面试时间尚未填写{% endif %}</p></div>
+    </div>
+    <form method="post" action="{% url 'jobs:interview_prep_refresh' application.pk %}">
+      {% csrf_token %}<button class="v2-button secondary" type="submit">↻ 重新生成</button>
+    </form>
+  </header>
+  {% include "jobs/partials/prep_content.html" %}
+</section>
+{% endblock %}

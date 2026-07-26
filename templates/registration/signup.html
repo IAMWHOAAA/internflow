@@ -1,26 +1,72 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}注册 · InternFlow{% endblock %}
+{% block title %}创建求职空间 · InternFlow{% endblock %}
+{% block extra_head %}<script src="{% static 'js/password-strength.js' %}" defer></script>{% endblock %}
 
-{% block content %}
-<section class="auth-section">
-  <div class="auth-card">
-    <div class="eyebrow"><span></span> 两分钟开始</div>
-    <h1>创建你的工作台</h1>
-    <p>不需要真实姓名，邮箱也可以留空。</p>
-    <form method="post" class="stack-form">
-      {% csrf_token %}
-      {% for field in form %}
-        <div class="field">
-          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-          {{ field }}
-          {% if field.help_text %}<small class="help-text">{{ field.help_text|safe }}</small>{% endif %}
-          {{ field.errors }}
+{% block public_content %}
+<section class="v2-auth-page">
+  <div class="auth-ambient"></div>
+  <div class="v2-auth-shell">
+    <div class="auth-story">
+      <a class="auth-back" href="{% url 'landing' %}">← 返回首页</a>
+      <div class="story-copy">
+        <span class="v2-eyebrow"><span>LOCAL</span> 隐私优先的求职工作台</span>
+        <h1>把混乱的求职过程，<em>变成你的优势。</em></h1>
+        <p>管理投递、分析简历、准备面试。所有重要信息都由你掌控。</p>
+      </div>
+      <div class="story-proof">
+        <div><i>01</i><span><strong>数据属于你</strong><small>简历默认只在本机解析</small></span></div>
+        <div><i>02</i><span><strong>核心功能完整</strong><small>看板、分析与面试准备闭环</small></span></div>
+        <div><i>03</i><span><strong>完全开源</strong><small>每一行代码都可以审查</small></span></div>
+      </div>
+    </div>
+
+    <div class="v2-auth-card">
+      <div class="auth-card-heading">
+        <span>免费开始</span>
+        <h2>创建你的账户</h2>
+        <p>已经有账户？<a href="{% url 'login' %}">直接登录</a></p>
+      </div>
+      <form method="post" class="v2-form" data-password-form>
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+        <div class="v2-field">
+          <label for="{{ form.username.id_for_label }}">用户名</label>
+          {{ form.username }}
+          {{ form.username.errors }}
         </div>
-      {% endfor %}
-      <button class="button button-primary button-full" type="submit">创建账户</button>
-    </form>
-    <p class="auth-switch">已经有账户？<a href="{% url 'login' %}">直接登录</a></p>
+        <div class="v2-field">
+          <label for="{{ form.email.id_for_label }}">邮箱 <small>选填</small></label>
+          {{ form.email }}
+          {{ form.email.errors }}
+        </div>
+        <div class="v2-field">
+          <label for="{{ form.password1.id_for_label }}">密码</label>
+          <div class="password-wrap">{{ form.password1 }}<button type="button" data-toggle-password aria-label="显示密码">◉</button></div>
+          {{ form.password1.errors }}
+        </div>
+
+        <div class="password-audit" data-password-audit aria-live="polite">
+          <div class="strength-heading"><span>密码强度</span><strong data-strength-label>等待输入</strong></div>
+          <div class="strength-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <ul>
+            <li data-rule="length"><i>○</i>至少 8 个字符</li>
+            <li data-rule="letter"><i>○</i>包含字母</li>
+            <li data-rule="number"><i>○</i>包含数字</li>
+            <li data-rule="common"><i>○</i>不是常见弱密码</li>
+          </ul>
+        </div>
+
+        <div class="v2-field">
+          <label for="{{ form.password2.id_for_label }}">确认密码</label>
+          <div class="password-wrap">{{ form.password2 }}<span class="match-indicator" data-match-indicator></span></div>
+          {{ form.password2.errors }}
+        </div>
+        <button class="v2-button primary full large" type="submit">创建求职空间 <span>→</span></button>
+        <p class="form-legal">注册即表示你理解：这是一个本地优先的开源工具。</p>
+      </form>
+    </div>
   </div>
 </section>
 {% endblock %}

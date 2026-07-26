@@ -1,70 +1,101 @@
 {% extends "base.html" %}
 
-{% block title %}InternFlow · 实习投递管理{% endblock %}
+{% block title %}InternFlow · 从简历到 Offer 的求职工作台{% endblock %}
 
-{% block content %}
-<section class="hero">
-  <div class="shell hero-grid">
-    <div class="hero-copy">
-      <div class="eyebrow"><span></span> 为学生打造的开源求职工作台</div>
-      <h1>别让机会，<br><em>消失在聊天记录里。</em></h1>
-      <p class="hero-lead">集中记录岗位、截止日期和面试进度。用一块清晰的看板，掌握每一次实习投递。</p>
-      <div class="hero-actions">
-        <a class="button button-primary button-large" href="{% url 'signup' %}">建立我的投递看板 <span>→</span></a>
-        <a class="text-link" href="https://github.com/IAMWHOAAA/internflow">查看源代码 ↗</a>
+{% block public_content %}
+<section class="v2-hero">
+  <div class="hero-glow glow-one"></div>
+  <div class="hero-glow glow-two"></div>
+  <div class="marketing-shell v2-hero-grid">
+    <div class="v2-hero-copy">
+      <div class="v2-eyebrow"><span>NEW</span> 简历洞察与个性化面试清单</div>
+      <h1>让每一次投递，<br><em>都有准备。</em></h1>
+      <p>从岗位管理到简历分析，再到面试前的复习清单。InternFlow 把散落的求职信息，整理成一套真正可执行的流程。</p>
+      <div class="v2-hero-actions">
+        <a class="v2-button primary large" href="{% url 'signup' %}">创建我的求职空间 <span>→</span></a>
+        <a class="v2-button text" href="https://github.com/IAMWHOAAA/internflow">查看 GitHub ↗</a>
       </div>
-      <div class="trust-row">
-        <span>✓ 本地优先</span>
-        <span>✓ 无广告</span>
-        <span>✓ MIT 开源</span>
+      <div class="proof-row">
+        <span><b>100%</b> 本地简历分析</span>
+        <span><b>6</b> 阶段投递流程</span>
+        <span><b>MIT</b> 开源协议</span>
       </div>
     </div>
 
-    <div class="hero-preview" aria-label="产品看板预览">
-      <div class="preview-top">
-        <div>
-          <span class="preview-kicker">本周进度</span>
-          <strong>投递工作台</strong>
-        </div>
-        <span class="avatar">M</span>
+    <div class="product-stage" aria-label="InternFlow 产品预览">
+      <div class="stage-orbit orbit-one"></div>
+      <div class="stage-orbit orbit-two"></div>
+      <div class="floating-note note-top">
+        <span class="note-icon">✓</span>
+        <div><strong>简历分析完成</strong><small>发现 4 个优势 · 3 个改进点</small></div>
       </div>
-      <div class="preview-stats">
-        <div><span>进行中</span><strong>8</strong></div>
-        <div><span>面试</span><strong>2</strong></div>
-        <div><span>Offer</span><strong class="accent-number">1</strong></div>
+      <div class="product-window">
+        <div class="window-sidebar">
+          <span class="mini-logo">IF</span>
+          <i class="active"></i><i></i><i></i><i></i>
+        </div>
+        <div class="window-main">
+          <div class="window-top"><span>面试准备中心</span><i>M</i></div>
+          <div class="window-heading">
+            <div><small>云帆网络</small><strong>后端开发实习生</strong></div>
+            <div class="score-ring"><b>78</b><small>简历分</small></div>
+          </div>
+          <div class="progress-label"><span>准备进度</span><b>4 / 9</b></div>
+          <div class="progress-track"><i></i></div>
+          <div class="checklist-preview">
+            <div class="done"><i>✓</i><span><strong>准备 90 秒自我介绍</strong><small>围绕岗位匹配点组织经历</small></span></div>
+            <div class="done"><i>✓</i><span><strong>复习 Python 与 Django</strong><small>原理、项目场景和技术取舍</small></span></div>
+            <div><i></i><span><strong>深挖 InternFlow 项目</strong><small>架构、权限与性能设计</small></span></div>
+            <div><i></i><span><strong>补强量化成果表达</strong><small>为关键经历准备结果数据</small></span></div>
+          </div>
+        </div>
       </div>
-      <div class="preview-board">
-        <div class="mini-column">
-          <span class="mini-heading"><i class="dot dot-blue"></i>已投递 <b>3</b></span>
-          <div class="mini-card"><strong>Python 开发实习生</strong><span>星河科技 · 南京</span><small>今天投递</small></div>
-          <div class="mini-card muted-card"><strong>数据分析实习生</strong><span>远山数据 · 上海</span></div>
-        </div>
-        <div class="mini-column">
-          <span class="mini-heading"><i class="dot dot-orange"></i>面试 <b>2</b></span>
-          <div class="mini-card featured-card"><small class="tag">明天 14:00</small><strong>后端开发实习生</strong><span>云帆网络 · 杭州</span><small>技术一面</small></div>
-        </div>
+      <div class="floating-note note-bottom">
+        <span class="pulse-dot"></span>
+        <div><strong>明天 14:00 技术一面</strong><small>清单进度 44%</small></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="feature-strip">
-  <div class="shell feature-grid">
-    <article>
-      <span class="feature-number">01</span>
-      <h2>所有机会，一处管理</h2>
-      <p>告别零散表格，把公司、岗位、链接和笔记放进同一个空间。</p>
-    </article>
-    <article>
-      <span class="feature-number">02</span>
-      <h2>进度一眼看清</h2>
-      <p>从待投递到 Offer，六阶段看板帮你找到下一步该做什么。</p>
-    </article>
-    <article>
-      <span class="feature-number">03</span>
-      <h2>你的数据归你</h2>
-      <p>可本地运行、可自行部署，完整代码在 GitHub 上公开。</p>
-    </article>
+<section id="features" class="v2-feature-section">
+  <div class="marketing-shell">
+    <div class="section-intro">
+      <span>一条完整的求职闭环</span>
+      <h2>不只是记录进度，<br>更帮你准备下一步。</h2>
+    </div>
+    <div class="bento-grid">
+      <article class="bento-card bento-board">
+        <div class="bento-copy"><span>01 · TRACK</span><h3>六阶段投递看板</h3><p>集中管理公司、岗位、截止日期和状态历史，下一步一眼可见。</p></div>
+        <div class="bento-visual mini-kanban">
+          <div><span>待投递 <b>2</b></span><i></i><i></i></div>
+          <div><span>面试 <b>1</b></span><i class="accent"></i></div>
+          <div><span>Offer <b>1</b></span><i class="success"></i></div>
+        </div>
+      </article>
+      <article class="bento-card bento-resume">
+        <div class="bento-copy"><span>02 · ANALYZE</span><h3>可解释的简历分析</h3><p>检查结构、量化成果、技术关键词与个人贡献，所有分析都在本机完成。</p></div>
+        <div class="resume-score-card">
+          <div class="score-orb">78<small>/100</small></div>
+          <div><strong>基础质量良好</strong><span>结构完整</span><span>项目证据清晰</span><span class="warn">量化结果可加强</span></div>
+        </div>
+      </article>
+      <article class="bento-card bento-prep">
+        <div class="bento-copy"><span>03 · PREPARE</span><h3>专属面试复习清单</h3><p>结合简历短板、岗位 JD 和项目经历，生成真正与你有关的准备任务。</p></div>
+        <div class="prep-lines"><span class="checked">✓ 项目架构复盘</span><span class="checked">✓ STAR 故事</span><span>○ SQL 索引原理</span><span>○ JD 技术缺口</span></div>
+      </article>
+      <article class="bento-card bento-privacy">
+        <div class="privacy-icon">⌁</div>
+        <div class="bento-copy"><span>PRIVACY FIRST</span><h3>简历不离开你的电脑</h3><p>本地解析、可自托管、没有广告，也不会拿你的求职数据训练模型。</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="v2-cta">
+  <div class="marketing-shell">
+    <div><span>从今天开始有准备地求职</span><h2>第一份记录，只需要两分钟。</h2></div>
+    <a class="v2-button light large" href="{% url 'signup' %}">免费建立工作台 →</a>
   </div>
 </section>
 {% endblock %}

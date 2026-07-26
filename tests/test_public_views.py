@@ -8,7 +8,7 @@ def test_landing_page_is_public(client):
     response = client.get(reverse("landing"))
 
     assert response.status_code == 200
-    assert "别让机会" in response.content.decode()
+    assert "让每一次投递" in response.content.decode()
 
 
 @pytest.mark.django_db

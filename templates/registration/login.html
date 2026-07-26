@@ -2,31 +2,33 @@
 
 {% block title %}登录 · InternFlow{% endblock %}
 
-{% block content %}
-<section class="auth-section">
-  <div class="auth-card">
-    <div class="eyebrow"><span></span> 欢迎回来</div>
-    <h1>登录 InternFlow</h1>
-    <p>继续整理你的投递进度。</p>
-    <form method="post" class="stack-form">
-      {% csrf_token %}
-      {% if form.non_field_errors %}
-        <div class="form-errors">{{ form.non_field_errors }}</div>
-      {% endif %}
-      <div class="field">
-        <label for="{{ form.username.id_for_label }}">用户名</label>
-        {{ form.username }}
-        {{ form.username.errors }}
+{% block public_content %}
+<section class="v2-auth-page login-page">
+  <div class="auth-ambient"></div>
+  <div class="v2-auth-shell login-shell">
+    <div class="auth-story">
+      <a class="auth-back" href="{% url 'landing' %}">← 返回首页</a>
+      <div class="story-copy">
+        <span class="v2-eyebrow"><span>WELCOME</span> 继续你的求职进度</span>
+        <h1>每一次准备，<em>都算数。</em></h1>
+        <p>回到工作台，查看即将截止的岗位和下一场面试清单。</p>
       </div>
-      <div class="field">
-        <label for="{{ form.password.id_for_label }}">密码</label>
-        {{ form.password }}
-        {{ form.password.errors }}
+      <div class="login-quote">“清晰不是为了记录过去，而是为了知道下一步。”</div>
+    </div>
+    <div class="v2-auth-card login-card">
+      <div class="auth-card-heading">
+        <span>欢迎回来</span><h2>登录 InternFlow</h2>
+        <p>还没有账户？<a href="{% url 'signup' %}">免费注册</a></p>
       </div>
-      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
-      <button class="button button-primary button-full" type="submit">登录</button>
-    </form>
-    <p class="auth-switch">还没有账户？<a href="{% url 'signup' %}">免费注册</a></p>
+      <form method="post" class="v2-form">
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+        <div class="v2-field"><label for="{{ form.username.id_for_label }}">用户名</label>{{ form.username }}{{ form.username.errors }}</div>
+        <div class="v2-field"><label for="{{ form.password.id_for_label }}">密码</label>{{ form.password }}{{ form.password.errors }}</div>
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+        <button class="v2-button primary full large" type="submit">进入工作台 <span>→</span></button>
+      </form>
+    </div>
   </div>
 </section>
 {% endblock %}

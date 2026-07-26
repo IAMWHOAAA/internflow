@@ -5,8 +5,8 @@
 [![Django 5.2 LTS](https://img.shields.io/badge/Django-5.2%20LTS-176b4d)](https://www.djangoproject.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-dff257)](LICENSE)
 
-面向学生的隐私友好型实习投递管理工具。集中记录岗位、跟踪六阶段进度、
-关注截止日期，并用一块清晰的看板找到下一步。
+面向学生的隐私友好型求职工作台。从六阶段投递看板，到本地简历分析，
+再到基于简历与岗位 JD 的面试复习清单，把求职变成一条可执行的流程。
 
 ![InternFlow 投递工作台](assets/dashboard-preview.svg)
 
@@ -18,8 +18,12 @@
 - 关键词搜索、进度筛选和 HTMX 局部刷新
 - 优先级、工作方式、地点、薪资、截止日期、JD 与个人笔记
 - 状态变更历史、投递统计和 7 天内截止提醒
+- PDF / DOCX 简历本地提取与可解释的优缺点分析
+- 结构、量化成果、技术关键词和个人贡献评分
+- 根据简历短板、岗位 JD 与项目经历生成可勾选的面试清单
+- 注册时实时密码强度与一致性反馈，服务端同步执行强度校验
 - SQLite 零配置开发，Docker Compose + PostgreSQL 一键运行
-- 20 项自动化测试、82% 分支覆盖率、Ruff 与 GitHub Actions CI
+- 41 项自动化测试、93% 分支覆盖率、Ruff 与 GitHub Actions CI
 
 ## 为什么做它
 
@@ -54,17 +58,21 @@ docker compose exec web python manage.py seed_demo
 ## 技术设计
 
 InternFlow 采用 Django 模块化单体和服务端渲染。HTMX 只做渐进增强，因此
-禁用 JavaScript 后，创建、编辑、删除和状态更新仍能完成。
+禁用 JavaScript 后，创建、编辑、删除、状态更新和清单操作仍能完成。
 
 ```text
-浏览器 → Django 路由 → 登录与所有权检查 → Form / ORM
-                                            ↓
-                                  SQLite / PostgreSQL
+浏览器 → Django 路由 → 登录与所有权检查 → Form / Service → ORM
+                                              ↓              ↓
+                                      PDF / DOCX 解析   SQLite / PostgreSQL
 ```
 
 所有详情和修改查询都会同时匹配记录 ID 与当前用户；状态更新使用数据库
 事务和不可变历史记录。生产镜像以非 root 用户运行，并由 WhiteNoise 提供
 带内容指纹的静态文件。
+
+简历分析不调用第三方服务：`pypdf` 与 `python-docx` 在本机提取文本，
+确定性规则分析结构与证据信号。上传仅接受 PDF / DOCX 且限制为 5 MB，
+文件名会替换为不可预测的存储名称。
 
 ## 质量检查
 

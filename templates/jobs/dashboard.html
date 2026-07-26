@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}投递工作台 · InternFlow{% endblock %}
+{% block title %}投递指挥中心 · InternFlow{% endblock %}
 
 {% block content %}
-<section class="dashboard-shell shell">
-  <div class="dashboard-heading">
+<section class="v2-dashboard">
+  <header class="workspace-heading">
     <div>
-      <div class="eyebrow"><span></span> 求职进度</div>
-      <h1>你好，{{ user.username }}</h1>
-      <p>把注意力留给真正重要的下一步。</p>
+      <div class="v2-eyebrow subtle"><span>LIVE</span> 求职进度实时概览</div>
+      <h1>早上好，{{ user.username }}。</h1>
+      <p>把注意力放在最接近结果的事情上。</p>
     </div>
-    <a class="button button-primary" href="{% url 'jobs:create' %}">＋ 新增投递</a>
-  </div>
+    <a class="v2-button primary" href="{% url 'jobs:create' %}">＋ 新增投递</a>
+  </header>
+
   <div id="dashboard-content">
     {% include "jobs/partials/dashboard_content.html" %}
   </div>

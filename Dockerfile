@@ -19,7 +19,8 @@ RUN DJANGO_DEBUG=false \
     DJANGO_SECRET_KEY=build-only-not-used-at-runtime \
     python manage.py collectstatic --noinput
 
-RUN addgroup --system internflow \
+RUN mkdir -p /app/media \
+    && addgroup --system internflow \
     && adduser --system --ingroup internflow internflow \
     && chown -R internflow:internflow /app
 
