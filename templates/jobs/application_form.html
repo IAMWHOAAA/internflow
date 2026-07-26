@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }} · InternFlow{% endblock %}
+
+{% block content %}
+<section class="page-shell shell narrow-shell">
+  <div class="page-heading">
+    <a class="back-link" href="{% if application %}{% url 'jobs:detail' application.pk %}{% else %}{% url 'jobs:dashboard' %}{% endif %}">← 返回</a>
+    <h1>{{ page_title }}</h1>
+    <p>先记录关键信息，稍后随时可以补充。</p>
+  </div>
+  <form method="post" class="record-form">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="form-grid">
+      {% for field in form %}
+        <div class="field {% if field.name == 'job_description' or field.name == 'notes' or field.name == 'source_url' %}field-wide{% endif %}">
+          <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}<span aria-label="必填"> *</span>{% endif %}</label>
+          {{ field }}
+          {{ field.errors }}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="form-actions">
+      <a class="button button-ghost" href="{% url 'jobs:dashboard' %}">取消</a>
+      <button class="button button-primary" type="submit">保存记录</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}{{ application.company }} · InternFlow{% endblock %}
+
+{% block content %}
+<section class="page-shell shell detail-shell">
+  <a class="back-link" href="{% url 'jobs:dashboard' %}">← 返回工作台</a>
+  <div class="detail-header">
+    <div>
+      <div class="detail-badges">
+        <span class="status-badge status-{{ application.status }}">{{ application.get_status_display }}</span>
+        <span class="priority-pill">{{ application.get_priority_display }}优先级</span>
+      </div>
+      <h1>{{ application.role }}</h1>
+      <p>{{ application.company }}{% if application.location %} · {{ application.location }}{% endif %}</p>
+    </div>
+    <div class="detail-actions">
+      <a class="button button-ghost" href="{% url 'jobs:edit' application.pk %}">编辑</a>
+      {% if application.source_url %}<a class="button button-primary" href="{{ application.source_url }}" target="_blank" rel="noopener">查看职位 ↗</a>{% endif %}
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <article class="detail-card">
+      <h2>基本信息</h2>
+      <dl class="detail-list">
+        <div><dt>进度</dt><dd>{{ application.get_status_display }}</dd></div>
+        <div><dt>工作方式</dt><dd>{{ application.get_work_mode_display }}</dd></div>
+        <div><dt>薪资</dt><dd>{{ application.salary_text|default:"未填写" }}</dd></div>
+        <div><dt>截止日期</dt><dd>{{ application.deadline|date:"Y 年 m 月 d 日"|default:"未填写" }}</dd></div>
+        <div><dt>投递日期</dt><dd>{{ application.applied_at|date:"Y 年 m 月 d 日"|default:"未填写" }}</dd></div>
+      </dl>
+    </article>
+    <article class="detail-card">
+      <h2>进度记录</h2>
+      <ol class="timeline">
+        {% for change in application.status_changes.all %}
+          <li>
+            <span></span>
+            <div><strong>{{ change.get_to_status_display }}</strong><time>{{ change.created_at|date:"m 月 d 日 H:i" }}</time></div>
+          </li>
+        {% empty %}
+          <li class="muted">还没有进度变化。</li>
+        {% endfor %}
+      </ol>
+    </article>
+    {% if application.job_description %}
+      <article class="detail-card detail-wide"><h2>职位描述</h2><div class="rich-text">{{ application.job_description|linebreaks }}</div></article>
+    {% endif %}
+    {% if application.notes %}
+      <article class="detail-card detail-wide"><h2>我的备注</h2><div class="rich-text">{{ application.notes|linebreaks }}</div></article>
+    {% endif %}
+  </div>
+  <div class="danger-zone">
+    <a href="{% url 'jobs:delete' application.pk %}">删除这条投递记录</a>
+  </div>
+</section>
+{% endblock %}

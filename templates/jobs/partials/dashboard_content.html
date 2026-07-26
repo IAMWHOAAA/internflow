@@ -1,0 +1,69 @@
+<div class="stats-grid">
+  <article class="stat-card"><span>全部记录</span><strong>{{ stats.total }}</strong><small>累计跟进</small></article>
+  <article class="stat-card"><span>进行中</span><strong>{{ stats.active }}</strong><small>需要关注</small></article>
+  <article class="stat-card"><span>面试阶段</span><strong>{{ stats.interviews }}</strong><small>准备表达</small></article>
+  <article class="stat-card stat-accent"><span>收到 Offer</span><strong>{{ stats.offers }}</strong><small>继续加油</small></article>
+</div>
+
+{% if stats.due_soon %}
+  <div class="deadline-alert"><strong>{{ stats.due_soon }} 个岗位即将截止</strong><span>未来 7 天内，记得及时投递。</span></div>
+{% endif %}
+
+<form
+  class="toolbar"
+  method="get"
+  action="{% url 'jobs:dashboard' %}"
+  hx-get="{% url 'jobs:dashboard' %}"
+  hx-trigger="submit, change from:select, keyup changed delay:350ms from:#search-input"
+  hx-target="#dashboard-content"
+  hx-push-url="true">
+  <label class="search-box" for="search-input">
+    <span aria-hidden="true">⌕</span>
+    <input id="search-input" type="search" name="q" value="{{ query }}" placeholder="搜索公司、岗位或城市">
+  </label>
+  <label class="select-label">
+    <span class="sr-only">按进度筛选</span>
+    <select name="status">
+      <option value="">全部进度</option>
+      {% for value, label in status_choices %}
+        <option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </label>
+  <button class="button button-ghost button-small" type="submit">筛选</button>
+  {% if query or selected_status %}
+    <a class="clear-filter" href="{% url 'jobs:dashboard' %}">清除筛选</a>
+  {% endif %}
+</form>
+
+<div class="kanban" aria-label="投递进度看板">
+  {% for status_value, group in grouped_applications.items %}
+    <section class="kanban-column status-{{ status_value }}">
+      <header class="column-header">
+        <span><i class="dot"></i>{{ group.label }}</span>
+        <b>{{ group.items|length }}</b>
+      </header>
+      <div class="column-items">
+        {% for application in group.items %}
+          {% include "jobs/partials/application_card.html" %}
+        {% empty %}
+          <div class="empty-column">
+            <span aria-hidden="true">＋</span>
+            <p>暂无记录</p>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endfor %}
+</div>
+
+{% if not stats.total %}
+  <div class="first-run-card">
+    <div class="first-run-icon">↗</div>
+    <div>
+      <h2>从第一份心仪岗位开始</h2>
+      <p>记录公司、岗位和截止日期，InternFlow 会帮你守住每一个机会。</p>
+    </div>
+    <a class="button button-primary" href="{% url 'jobs:create' %}">新增第一条记录</a>
+  </div>
+{% endif %}

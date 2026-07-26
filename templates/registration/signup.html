@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}注册 · InternFlow{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="auth-card">
+    <div class="eyebrow"><span></span> 两分钟开始</div>
+    <h1>创建你的工作台</h1>
+    <p>不需要真实姓名，邮箱也可以留空。</p>
+    <form method="post" class="stack-form">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="field">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}<small class="help-text">{{ field.help_text|safe }}</small>{% endif %}
+          {{ field.errors }}
+        </div>
+      {% endfor %}
+      <button class="button button-primary button-full" type="submit">创建账户</button>
+    </form>
+    <p class="auth-switch">已经有账户？<a href="{% url 'login' %}">直接登录</a></p>
+  </div>
+</section>
+{% endblock %}

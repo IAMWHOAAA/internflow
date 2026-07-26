@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}删除投递 · InternFlow{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="auth-card confirm-card">
+    <div class="danger-icon">!</div>
+    <h1>确定删除这条记录？</h1>
+    <p><strong>{{ application.company }} · {{ application.role }}</strong></p>
+    <p>相关的进度记录也会一起删除，此操作无法撤销。</p>
+    <form method="post" class="confirm-actions">
+      {% csrf_token %}
+      <a class="button button-ghost" href="{% url 'jobs:detail' application.pk %}">保留记录</a>
+      <button class="button button-danger" type="submit">确认删除</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

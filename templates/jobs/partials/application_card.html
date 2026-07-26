@@ -1,0 +1,30 @@
+<article class="application-card priority-{{ application.priority }}">
+  <div class="card-topline">
+    <span class="priority-pill">{{ application.get_priority_display }}优先级</span>
+    <a class="card-menu" href="{% url 'jobs:detail' application.pk %}" aria-label="查看 {{ application.company }} 详情">···</a>
+  </div>
+  <a class="card-title" href="{% url 'jobs:detail' application.pk %}">
+    <strong>{{ application.role }}</strong>
+    <span>{{ application.company }}</span>
+  </a>
+  <div class="card-meta">
+    {% if application.location %}<span>⌖ {{ application.location }}</span>{% endif %}
+    <span>{{ application.get_work_mode_display }}</span>
+    {% if application.salary_text %}<span>{{ application.salary_text }}</span>{% endif %}
+  </div>
+  {% if application.deadline %}
+    <div class="card-deadline"><span>截止</span><time datetime="{{ application.deadline|date:'Y-m-d' }}">{{ application.deadline|date:"m 月 d 日" }}</time></div>
+  {% endif %}
+  <form method="post" action="{% url 'jobs:status_update' application.pk %}" class="status-form">
+    {% csrf_token %}
+    <label>
+      <span class="sr-only">更新 {{ application.company }} 的进度</span>
+      <select name="status" onchange="this.form.submit()">
+        {% for value, label in status_choices %}
+          <option value="{{ value }}" {% if application.status == value %}selected{% endif %}>移至：{{ label }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <noscript><button type="submit">更新进度</button></noscript>
+  </form>
+</article>

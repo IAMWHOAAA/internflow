@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}投递工作台 · InternFlow{% endblock %}
+
+{% block content %}
+<section class="dashboard-shell shell">
+  <div class="dashboard-heading">
+    <div>
+      <div class="eyebrow"><span></span> 求职进度</div>
+      <h1>你好，{{ user.username }}</h1>
+      <p>把注意力留给真正重要的下一步。</p>
+    </div>
+    <a class="button button-primary" href="{% url 'jobs:create' %}">＋ 新增投递</a>
+  </div>
+  <div id="dashboard-content">
+    {% include "jobs/partials/dashboard_content.html" %}
+  </div>
+</section>
+{% endblock %}
